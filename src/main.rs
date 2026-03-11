@@ -75,7 +75,7 @@ fn gen_code(secret: String) -> Result<String, String> {
     let long_code = u32::from_be_bytes(
         output[offset..offset + 4]
             .try_into()
-            .map_err(|_| "hamc shorter than expected")?,
+            .map_err(|_| "hmac shorter than expected")?,
     ) & 0x7fff_ffff;
     let truncated_code = long_code % 1000000;
 
