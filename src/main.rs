@@ -63,7 +63,8 @@ fn gen_code(secret: String) -> Result<String, String> {
     let decoded_secret = base32::decode(base32::Alphabet::Rfc4648 { padding: false }, &secret)
         .ok_or("Failed to decode secret, is it base32?")?;
 
-    let mut mac = HmacSha1::new_from_slice(&decoded_secret).expect("HMAC can take key of any size");
+    let mut mac =
+        HmacSha1::new_from_slice(&decoded_secret).map_err(|_| "HMAC can take key of any size")?;
     mac.update(&big_counter.to_be_bytes());
 
     let result = mac.finalize().into_bytes();
